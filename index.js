@@ -1,5 +1,6 @@
 import dotenv from 'dotenv'
 import express from 'express'
+import bodyParser from 'body-parser'
 import { Client, GatewayIntentBits } from 'discord.js'
 
 dotenv.config()
@@ -17,6 +18,8 @@ const client = new Client({
 client.login(process.env.DISCORD_TOKEN)
 
 const app = express()
+app.use(bodyParser.urlencoded({extended: true}))
+app.use(bodyParser.json())
 const port = process.env.PORT || 3030
 
 client.on("messageCreate", async (message) => {
@@ -24,7 +27,8 @@ client.on("messageCreate", async (message) => {
 })
 
 app.post('/gm-msg', (req, res) => {
-    console.log(`Body: ${req.body}`)
+    console.log(`Body: ${req.body.text}`)
+    res.sendStatus(200)
 })
 
 app.get('/', (req, res) => {
