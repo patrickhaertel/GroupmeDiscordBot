@@ -25,6 +25,8 @@ const port = process.env.PORT || 3030
 app.post('/gm-msg', (req, res) => {
     const channel = client.channels.cache.get(req.query.to)
 
+    console.log(req.body)
+
     const embed = new EmbedBuilder()
         .setColor(0x5ABBF3)
         .setAuthor({ name: req.body.name, iconURL: req.body.avatar_url})
