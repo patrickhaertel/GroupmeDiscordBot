@@ -37,15 +37,11 @@ app.post('/gm-msg', (req, res) => {
         for (let attachment of req.body.attachments) {
             if (attachment.type == "image") {
                 embed.setImage(attachment.url)
-                channel.send({embeds: [embed]})
             }
         }
-    } else {
-        channel.send({embeds: [embed]})
     }
 
-    
-
+    channel.send({embeds: [embed]})
     res.sendStatus(200)
 })
 
