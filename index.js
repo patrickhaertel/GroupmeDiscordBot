@@ -1,7 +1,7 @@
 import dotenv from 'dotenv'
 import express from 'express'
 import bodyParser from 'body-parser'
-import { Client, GatewayIntentBits } from 'discord.js'
+import { Client, GatewayIntentBits, EmbedBuilder } from 'discord.js'
 
 dotenv.config()
 
@@ -22,17 +22,32 @@ app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json())
 const port = process.env.PORT || 3030
 
-client.on("messageCreate", async (message) => {
-    console.log(`Message: ${message.content}`)
-})
-
 app.post('/gm-msg', (req, res) => {
-    console.log(`Body: ${req.body.text}`)
+    const channel = client.channels.cache.get(req.query.to)
+
+    const embed = new EmbedBuilder()
+        .setColor(0x5ABBF3)
+        .setAuthor({ name: req.body.name, iconURL: req.body.avatar_url})
+        .setDescription(req.body.text)
+
+    if (req.body.attachments != []) {
+        for (let attachment of req.body.attachments) {
+            if (attachment.type == "image") {
+                embed.setImage(attachment.url)
+                channel.send({embeds: [embed]})
+            }
+        }
+    } else {
+        channel.send({embeds: [embed]})
+    }
+
+    
+
     res.sendStatus(200)
 })
 
 app.get('/', (req, res) => {
-    res.send('Hello World!')
+    // res.send('Hello World!')
   })
   
   app.listen(port, () => {
