@@ -28,7 +28,10 @@ app.post('/gm-msg', (req, res) => {
     const embed = new EmbedBuilder()
         .setColor(0x5ABBF3)
         .setAuthor({ name: req.body.name, iconURL: req.body.avatar_url})
-        .setDescription(req.body.text)
+
+    if (req.body.text) {
+        embed.setDescription(req.body.text)
+    }
 
     if (req.body.attachments != []) {
         for (let attachment of req.body.attachments) {
