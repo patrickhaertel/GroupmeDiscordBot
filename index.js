@@ -23,6 +23,10 @@ client.on("messageCreate", async (message) => {
     console.log(`Message: ${message.content}`)
 })
 
+app.post('/gm-msg', (req, res) => {
+    console.log(`Body: ${req.body}`)
+})
+
 app.get('/', (req, res) => {
     res.send('Hello World!')
   })
