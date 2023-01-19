@@ -56,7 +56,18 @@ app.post('/gm-msg', async (req, res) => {
                 embed.setImage(attachment.url)
             }
             if (attachment.type == "reply") {
+                let group_id = req.body.group_id
+                let reply_id = attachment.reply_id
 
+                let url = new URL(`https://api.groupme.com/v3/groups/${group_id}/messages/${reply_id}`)
+                
+                url.searchParams.append("token", process.env.GROUPME_TOKEN)
+
+                let messageResponse = await fetch(url)
+
+                let originalMessage = messageResponse.body.message.text
+
+                console.log(`Original Message: ${originalMessage}`)
             }
         }
     }
