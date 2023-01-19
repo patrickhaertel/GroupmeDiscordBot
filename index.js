@@ -16,7 +16,11 @@ const client = new Client({
     ]
 })
 
-client.login(process.env.DISCORD_TOKEN)
+let clientLoggedIn = false
+
+async function loginClient() {
+    return client.login(process.env.DISCORD_TOKEN)
+}
 
 const app = express()
 app.use(bodyParser.urlencoded({extended: true}))
@@ -24,16 +28,17 @@ app.use(bodyParser.json())
 const port = process.env.PORT || 3030
 
 app.post('/gm-msg', async (req, res) => {
-    if (client.isReady == false) {
-        print("Client not ready awaiting...")
+    if (clientLoggedIn == false) {
         await once(Events.ClientReady)
-        print("Client Ready")
+        await loginClient()
+        clientLoggedIn = true
+        console.log("Client Ready")
     } else {
-        print("Client Ready")
+        console.log("Client Ready")
     }
 
     const channel = client.channels.cache.get(req.query.to)
-    print("Getting Channel")
+    console.log("Getting Channel")
 
     console.log(req.body)
 
