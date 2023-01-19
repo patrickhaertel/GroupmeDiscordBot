@@ -65,9 +65,9 @@ app.post('/gm-msg', async (req, res) => {
 
                 let messageResponse = await fetch(url)
 
-                let originalMessage = messageResponse.body.message.text
+                // let originalMessage = messageResponse.body.message.text
 
-                console.log(`Original Message: ${originalMessage}`)
+                console.log(`Original Message: ${messageResponse}`)
             }
         }
     }
