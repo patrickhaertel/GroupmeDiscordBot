@@ -64,10 +64,11 @@ app.post('/gm-msg', async (req, res) => {
                 url.searchParams.append("token", process.env.GROUPME_TOKEN)
 
                 let messageResponse = await fetch(url)
+                messageResponse = messageResponse.json()
 
                 // let originalMessage = messageResponse.body.message.text
 
-                console.log(`Original Message: ${messageResponse}`)
+                console.log(`Original Message: ${JSON.stringify(messageResponse)}`)
             }
         }
     }
