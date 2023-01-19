@@ -25,10 +25,15 @@ const port = process.env.PORT || 3030
 
 app.post('/gm-msg', async (req, res) => {
     if (client.isReady == false) {
+        print("Client not ready awaiting...")
         await once(Events.ClientReady)
+        print("Client Ready")
+    } else {
+        print("Client Ready")
     }
 
     const channel = client.channels.cache.get(req.query.to)
+    print("Getting Channel")
 
     console.log(req.body)
 
@@ -44,6 +49,9 @@ app.post('/gm-msg', async (req, res) => {
         for (let attachment of req.body.attachments) {
             if (attachment.type == "image") {
                 embed.setImage(attachment.url)
+            }
+            if (attachment.type == "reply") {
+
             }
         }
     }
