@@ -2,6 +2,7 @@ import dotenv from 'dotenv'
 import express from 'express'
 import bodyParser from 'body-parser'
 import { Client, GatewayIntentBits, EmbedBuilder } from 'discord.js'
+import { once } from 'events'
 
 dotenv.config()
 
@@ -22,7 +23,11 @@ app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json())
 const port = process.env.PORT || 3030
 
-app.post('/gm-msg', (req, res) => {
+app.post('/gm-msg', async (req, res) => {
+    if (client.isReady == false) {
+        await once(Events.ClientReady)
+    }
+
     const channel = client.channels.cache.get(req.query.to)
 
     console.log(req.body)
