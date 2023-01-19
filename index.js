@@ -29,7 +29,6 @@ const port = process.env.PORT || 3030
 
 app.post('/gm-msg', async (req, res) => {
     if (clientLoggedIn == false) {
-        await once(Events.ClientReady)
         await loginClient()
         clientLoggedIn = true
         console.log("Client Ready")
