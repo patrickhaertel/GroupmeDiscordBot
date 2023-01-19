@@ -19,7 +19,7 @@ const client = new Client({
 let clientLoggedIn = false
 
 async function loginClient() {
-    return client.login(process.env.DISCORD_TOKEN)
+    await client.login(process.env.DISCORD_TOKEN)
 }
 
 const app = express()
@@ -29,15 +29,16 @@ const port = process.env.PORT || 3030
 
 app.post('/gm-msg', async (req, res) => {
     if (clientLoggedIn == false) {
+        console.log("Client not logged in")
         await loginClient()
         clientLoggedIn = true
-        console.log("Client Ready")
+        console.log(`Client newly logged in as: ${client.user.tag}`)
     } else {
-        console.log("Client Ready")
+        console.log(`Client already logged in as: ${client.user.tag}`)
     }
 
     const channel = client.channels.cache.get(req.query.to)
-    console.log("Getting Channel")
+    console.log(`Getting Channel: ${channel}`)
 
     console.log(req.body)
 
